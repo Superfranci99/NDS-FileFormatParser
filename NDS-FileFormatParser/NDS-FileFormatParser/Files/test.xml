@@ -1,0 +1,47 @@
+<data>
+	<info>
+<!-- GENERAL FILE INFO SECTION
+	 At the moment this section isn't important
+	 because I'm just interested in parsing the file.
+	 Here there will be some info about the file:
+	 tell if it contains text, images, and so on.
+	 The user has to say which type of data there is
+	 in the file and in which variables are contained
+	 the interesting values
+ -->
+	</info>
+	
+	
+	<structure>
+<!-- FILE STRUCTURE SECTION
+	 In this section the user has to define the
+	 variables that the program will read.
+	 The sintax for primitive data type is:
+		<primitive name   = "Variable name"
+                      (the name of the variable must be just
+                      one word with no spaces)
+		           type   = "data type"
+				       offset = "offset of the variable in the file"
+                      (optionally: if the user wants to read
+                      without jumping inside the file, he can
+                      omit it)
+				       size   = "size of the variable in bytes"
+				              (if the users doesn't define it,
+							        the size will be the default value.
+							        In some cases it necessary to define
+							        the length of the variable: if it
+							        isn't the tool will throw a
+							        NullArgumentException)
+		/>
+ -->
+    <primitive name="MagicID"     type="int"    offset="0"  size="4" />
+    <primitive name="Endianess"   type="ushort" offset="4"  size="2" />
+    <primitive name="Constant"    type="ushort" offset="6"  size="2" />
+    <primitive name="FileSize"    type="uint"   offset="8"  size="4" />
+    <primitive name="HeaderSize"  type="ushort" offset="12" size="2" />
+    <primitive name="NumOfBlocks" type="ushort" offset="14" size="2" />
+    
+	</structure>
+	
+
+</data>
