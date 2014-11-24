@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDS-FileFormatParser", "NDS-FileFormatParser\NDS-FileFormatParser.csproj", "{426927A4-1C1F-4952-84CC-D14C6D9D432F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDS-FileFormatParserTEST", "..\..\XMLreaderTest\NDS-FileFormatParserTEST.csproj", "{811FCDCE-19D1-417A-95E1-359F802F30B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{426927A4-1C1F-4952-84CC-D14C6D9D432F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{426927A4-1C1F-4952-84CC-D14C6D9D432F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{426927A4-1C1F-4952-84CC-D14C6D9D432F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{811FCDCE-19D1-417A-95E1-359F802F30B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{811FCDCE-19D1-417A-95E1-359F802F30B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{811FCDCE-19D1-417A-95E1-359F802F30B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{811FCDCE-19D1-417A-95E1-359F802F30B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

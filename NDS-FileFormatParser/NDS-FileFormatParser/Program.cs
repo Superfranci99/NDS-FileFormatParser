@@ -26,9 +26,11 @@ namespace NDS_FileFormatParser
              * where args[0] = path of the file to parse
              *       args[1] = path of the XML file
             */
-
+            args = new string[2];
             args[0] = @"Files\palette.nclr";
             args[1] = @"Files\test.xml";
+
+            Parser parser = new Parser(args[0], args[1]);
         }
     }
 }
