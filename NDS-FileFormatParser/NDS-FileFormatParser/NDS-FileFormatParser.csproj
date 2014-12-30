@@ -44,6 +44,7 @@
     <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XML\Xinstruction.cs" />
     <Compile Include="XML\XMLreader.cs" />
   </ItemGroup>
   <ItemGroup>

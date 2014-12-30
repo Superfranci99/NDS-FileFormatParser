@@ -16,6 +16,9 @@ namespace NDS_FileFormatParser.XML
         public bool HasStructureElement { get; set; }
         public bool HasInfoElement      { get; set; }
 
+        public XElement StuctElement { get; set; }
+        public XElement InfoElement  { get; set; }
+
         #region Constructors
         public XMLreader(string filePath) : this()
         {
@@ -30,14 +33,14 @@ namespace NDS_FileFormatParser.XML
         {
             if (string.IsNullOrWhiteSpace(filedata))
                 throw new ArgumentNullException("The XML file cannot be null or white space");
-            this.Doc = XDocument.Parse(filedata);       
+            this.Doc = XDocument.Parse(filedata);
             Read();
         }
 
         private XMLreader()
         {
-            this.HasInfoElement = false;
-            this.HasRootElement = false;
+            this.HasInfoElement      = false;
+            this.HasRootElement      = false;
             this.HasStructureElement = false;
         }
         #endregion
@@ -57,19 +60,21 @@ namespace NDS_FileFormatParser.XML
                 this.HasRootElement = true;
 
             //get the structure and info elements and check them
-            XElement fileStruct = root.Element("structure");
-            XElement fileInfo   = root.Element("info");
-            if (fileStruct == null)
+            this.StuctElement = root.Element("structure");
+            this.InfoElement  = root.Element("info");
+            if (this.StuctElement  == null)
                 throw new NullReferenceException("The <data></data> element needs the <structure></structure> element");
             else
                 this.HasStructureElement = true;
-            if (fileInfo == null)
+            if (this.InfoElement == null)
                 throw new NullReferenceException("The <data></data> element needs the <info></info> element");
             else
                 this.HasInfoElement = true;
+            
 
-            //TODO read the file structure section
-            //TODO read the file info section
+            //TODO - read the file structure section
+
+            //TODO - read the file info section
         }
     }
 }
