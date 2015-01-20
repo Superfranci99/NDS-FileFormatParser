@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace NDS_FileFormatParser.XML
 {
@@ -14,7 +15,7 @@ namespace NDS_FileFormatParser.XML
         /// <param name="commandName">Instruction identifier</param>
         /// <param name="args">Dictionary for args args[identifier][value]</param>
         /// <param name="xinstructions">Optional - Instructions inside the scope</param>
-        public Xinstruction(string commandName, Dictionary<string,string> args, List<Xinstruction> xinstructions = null)
+        public Xinstruction(string commandName, Dictionary<string,string> args, List<Xinstruction> xinstructions)
         {
             //command name
             this.CommandName = commandName;
@@ -126,6 +127,26 @@ namespace NDS_FileFormatParser.XML
             return IsContainerCommand(xinstruction.CommandName);
         }
 
+        /// <summary>
+        /// Convert a XElement to a Xinstruction
+        /// </summary>
+        /// <param name="el">XElement to convert</param>
+        /// <returns></returns>
+        public static Xinstruction FromXElementToXinstruction(XElement el)
+        {
+            List<Xinstruction> contained = new List<Xinstruction>();
+            if (Xinstruction.IsContainerCommand(el.Name.ToString()))
+                foreach (XElement conEl in el.Elements())
+                    contained.Add(FromXElementToXinstruction(conEl));
+            else
+                contained = null;
+
+            Dictionary<string, string> args = new Dictionary<string, string>();
+            foreach (XAttribute attr in el.Attributes())
+                args.Add(attr.Name.ToString(), attr.Value);
+
+            return new Xinstruction(el.Name.ToString(), args, contained);
+        }
 
         #endregion
 

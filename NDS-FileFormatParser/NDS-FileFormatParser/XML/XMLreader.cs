@@ -81,22 +81,9 @@ namespace NDS_FileFormatParser.XML
             else
                 this.HasInfoElement = true;     
 
-            //TODO - read the file structure section
+            //read file structure
             foreach (XElement el in this.StuctElement.Elements())
-            {
-                bool container;
-                if (Xinstruction.IsContainerCommand(el.Name.ToString()))
-                    container = true;
-                else
-                    container = false;
-
-                Dictionary<string,string> args = new Dictionary<string,string>();
-                foreach(XAttribute attr in el.Attributes())
-                    args.Add(attr.Name.ToString(), attr.Value);
-
-                Xinstruction x = new Xinstruction(el.Name.ToString(), args);
-                this.Debug.AddInstruction(x);
-            }
+                this.Debug.AddInstruction(Xinstruction.FromXElementToXinstruction(el));
 
             //TODO - read the file info section
         }
