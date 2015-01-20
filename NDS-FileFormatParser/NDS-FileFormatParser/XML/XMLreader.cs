@@ -89,7 +89,13 @@ namespace NDS_FileFormatParser.XML
                     container = true;
                 else
                     container = false;
-                //TODO - call the debugger
+
+                Dictionary<string,string> args = new Dictionary<string,string>();
+                foreach(XAttribute attr in el.Attributes())
+                    args.Add(attr.Name.ToString(), attr.Value);
+
+                Xinstruction x = new Xinstruction(el.Name.ToString(), args);
+                this.Debug.AddInstruction(x);
             }
 
             //TODO - read the file info section

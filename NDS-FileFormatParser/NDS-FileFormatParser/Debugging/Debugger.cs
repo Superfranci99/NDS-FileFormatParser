@@ -46,7 +46,8 @@ namespace NDS_FileFormatParser.Debugging
             int    offset = int.Parse(xinstruction.Args["offset"]);
             int    size   = int.Parse(xinstruction.Args["size"]);
 
-            //READ DATA AND OUTPUT
+            object value = this.Parse.Read(type, offset, size);
+            Console.WriteLine("{0}, {1}, {2}, {3} --> {4}", name, type, offset, size, value);
         }
     }
 }

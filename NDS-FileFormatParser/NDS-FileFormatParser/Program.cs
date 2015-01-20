@@ -31,6 +31,7 @@ namespace NDS_FileFormatParser
             args[1] = @"Files\test.xml";
 
             Controller controller = new Controller(args[0], args[1]);
+            Console.Read();
         }
     }
 }

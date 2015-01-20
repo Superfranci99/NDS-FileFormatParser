@@ -38,7 +38,7 @@ namespace NDS_FileFormatParser.XML
             if (this.Args == null)
                 this.HasNoParams = true;
             else
-                this.HasNoParams = true;
+                this.HasNoParams = false;
 
             //TODO - check if the params of an instruction are correct (maybe later)
         }
@@ -128,5 +128,6 @@ namespace NDS_FileFormatParser.XML
 
 
         #endregion
+
     }
 }
