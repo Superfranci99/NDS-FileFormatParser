@@ -49,7 +49,7 @@
     <primitive name="PaletteSize" type="int"    offset="32" size="4" />
     <primitive name="ColorOffset" type="int"    offset="36" size="4" />
 
-    <primitive name="FirstColor"  type="int"    offset="16+24" size="2" />
+    <primitive name="FirstColor"  type="int"    offset="ColorOffset+24" size="2" />
 
   </structure>
 	

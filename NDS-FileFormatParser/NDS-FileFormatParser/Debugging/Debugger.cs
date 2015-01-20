@@ -13,10 +13,12 @@ namespace NDS_FileFormatParser.Debugging
     {
         public string FileToParsePath { get; set; }
         public Parser Parse { get; set; }
+        public Dictionary<string, object> Variables { get; set; }
 
         public Debugger(string fileToParsePath)
         {
             this.Parse = new Parser(fileToParsePath);
+            this.Variables = new Dictionary<string, object>();
         }
 
         public void AddInstruction(Xinstruction xinstruction)
@@ -42,14 +44,32 @@ namespace NDS_FileFormatParser.Debugging
         private void ExecutePrimitive(Xinstruction xinstruction)
         {
             // <primitive name="" type="" offset="" size="" />
+            
+            //get the values from the Xinstruction
             DataTable dt = new DataTable();
+        
+            string name    = xinstruction.Args["name"];
+            string type    = xinstruction.Args["type"];
+            string offStr  = xinstruction.Args["offset"];
+            string sizeStr = xinstruction.Args["size"];
 
-            string name   = xinstruction.Args["name"];
-            string type   = xinstruction.Args["type"];
-            int    offset = int.Parse(dt.Compute(xinstruction.Args["offset"], "").ToString());
-            int    size   = int.Parse(dt.Compute(xinstruction.Args["size"], "").ToString());
+            foreach (KeyValuePair<string, object> v in this.Variables)
+                offStr = offStr.Replace(v.Key, v.Value.ToString());
+
+            foreach (KeyValuePair<string, object> v in this.Variables)
+                sizeStr = sizeStr.Replace(v.Key, v.Value.ToString());
+
+            int offset = int.Parse(dt.Compute(offStr, "").ToString());
+            int size   = int.Parse(dt.Compute(sizeStr, "").ToString());
            
+            //get the value from the file
             object value = this.Parse.Read(type, offset, size);
+
+            //TODO - check if a variable with the same name already exists
+            //add the current variable to the variable list
+            this.Variables.Add(name, value);
+
+            //output the value with all infos
             Console.WriteLine("{0}, {1}, {2}, {3} --> {4}", name, type, offset, size, value);
         }
     }
