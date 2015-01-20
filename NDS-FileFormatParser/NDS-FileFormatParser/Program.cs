@@ -30,7 +30,7 @@ namespace NDS_FileFormatParser
             args[0] = @"Files\palette.nclr";
             args[1] = @"Files\test.xml";
 
-            Parser parser = new Parser(args[0], args[1]);
+            Controller controller = new Controller(args[0], args[1]);
         }
     }
 }

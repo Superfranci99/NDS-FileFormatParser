@@ -34,7 +34,7 @@
 							        NullArgumentException)
 		/>
  -->
-    <primitive name="MagicID"     type="int"    offset="0"  size="4" />
+    <primitive name="MagicID"     type="string"    offset="0"  size="4" />
     <primitive name="Endianess"   type="ushort" offset="4"  size="2" />
     <primitive name="Constant"    type="ushort" offset="6"  size="2" />
     <primitive name="FileSize"    type="uint"   offset="8"  size="4" />

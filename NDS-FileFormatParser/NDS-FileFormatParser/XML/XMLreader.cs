@@ -4,13 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using NDS_FileFormatParser.Debugging;
 
 namespace NDS_FileFormatParser.XML
 {
-    public class XMLreader
+    class XMLreader
     {
-        public string    FilePath { get; set; }
+        public string    XmlPath  { get; set; }
         public XDocument Doc      { get; set; }
+
+        public string FileToParsePath { get; set; }
 
         public bool HasRootElement      { get; set; }
         public bool HasStructureElement { get; set; }
@@ -19,29 +22,36 @@ namespace NDS_FileFormatParser.XML
         public XElement StuctElement { get; set; }
         public XElement InfoElement  { get; set; }
 
+        public Debugger Debug { get; set; }
+
         #region Constructors
-        public XMLreader(string filePath) : this()
+        public XMLreader(string xmlPath, string fileToParsePath)
+            : this(fileToParsePath)
         {
-            if (string.IsNullOrWhiteSpace(filePath))
+            if (string.IsNullOrWhiteSpace(xmlPath))
                 throw new ArgumentNullException("The path of the XML file cannot be null or white space");
-            this.FilePath = filePath;
-            this.Doc = XDocument.Load(filePath);
+            this.XmlPath = xmlPath;
+            this.Doc = XDocument.Load(xmlPath);
             Read();
         }
 
-        public XMLreader(string filedata, bool useless) : this()
+        public XMLreader(string xmlData, string fileToParsePath, bool useless)
+            : this(fileToParsePath)
         {
-            if (string.IsNullOrWhiteSpace(filedata))
+            if (string.IsNullOrWhiteSpace(xmlData))
                 throw new ArgumentNullException("The XML file cannot be null or white space");
-            this.Doc = XDocument.Parse(filedata);
+            this.Doc = XDocument.Parse(xmlData);
             Read();
         }
 
-        private XMLreader()
+        private XMLreader(string fileToParsePath)
         {
             this.HasInfoElement      = false;
             this.HasRootElement      = false;
             this.HasStructureElement = false;
+
+            this.FileToParsePath = fileToParsePath;
+            this.Debug = new Debugger(this.FileToParsePath);
         }
         #endregion
 
@@ -69,10 +79,18 @@ namespace NDS_FileFormatParser.XML
             if (this.InfoElement == null)
                 throw new NullReferenceException("The <data></data> element needs the <info></info> element");
             else
-                this.HasInfoElement = true;
-            
+                this.HasInfoElement = true;     
 
             //TODO - read the file structure section
+            foreach (XElement el in this.StuctElement.Elements())
+            {
+                bool container;
+                if (Xinstruction.IsContainerCommand(el.Name.ToString()))
+                    container = true;
+                else
+                    container = false;
+                //TODO - call the debugger
+            }
 
             //TODO - read the file info section
         }
