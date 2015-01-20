@@ -34,14 +34,24 @@
 							        NullArgumentException)
 		/>
  -->
-    <primitive name="MagicID"     type="string" offset="0"  size="4" />
+    <primitive name="MagicIdNCLR" type="string" offset="0"  size="4" />
     <primitive name="Endianess"   type="int"    offset="4"  size="2" />
     <primitive name="Constant"    type="int"    offset="6"  size="2" />
     <primitive name="FileSize"    type="int"    offset="8"  size="4" />
     <primitive name="HeaderSize"  type="int"    offset="12" size="2" />
     <primitive name="NumOfBlocks" type="int"    offset="14" size="2" />
-    
-	</structure>
+
+    <primitive name="MagicIdPLTT" type="string" offset="16" size="4" />
+    <primitive name="SizePLTT"    type="int"    offset="20" size="4" />
+    <primitive name="Depth"       type="int"    offset="24" size="2" />
+    <primitive name="Unknown1"    type="int"    offset="26" size="2" />
+    <primitive name="Unknown2"    type="int"    offset="28" size="4" />
+    <primitive name="PaletteSize" type="int"    offset="32" size="4" />
+    <primitive name="ColorOffset" type="int"    offset="36" size="4" />
+
+    <primitive name="FirstColor"  type="int"    offset="16+24" size="2" />
+
+  </structure>
 	
 
 </root>
