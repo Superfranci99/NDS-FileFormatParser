@@ -51,6 +51,10 @@
 
     <primitive name="FirstColor"  type="int"    offset="ColorOffset+24" size="2" />
 
+    <for counter="i" start="0" to="7" step="2">
+      <primitive name="Color"  type="int" offset="ColorOffset+24+i" size="2" />
+    </for>
+
   </structure>
 	
 

@@ -14,11 +14,15 @@ namespace NDS_FileFormatParser.Debugging
         public string FileToParsePath { get; set; }
         public Parser Parse { get; set; }
         public Dictionary<string, object> Variables { get; set; }
+        public Dictionary<string, int> Counters { get; set; }
+
+        int forCounter;
 
         public Debugger(string fileToParsePath)
         {
-            this.Parse = new Parser(fileToParsePath);
+            this.Parse     = new Parser(fileToParsePath);
             this.Variables = new Dictionary<string, object>();
+            this.Counters  = new Dictionary<string, int>();
         }
 
         public void AddInstruction(Xinstruction xinstruction)
@@ -30,15 +34,66 @@ namespace NDS_FileFormatParser.Debugging
                     break;
                 case "for":
                     ExecuteFor(xinstruction);
+                    this.Counters.Remove(xinstruction.Args["counter"]); //remove the last counter
                     break;
                 default:
                     throw new NotImplementedException("Instruction not supported");
             }
         }
 
-        private void ExecuteFor(Xinstruction xinstruction)
+        public void ExecuteFor(Xinstruction xinstruction)
         {
-            throw new NotImplementedException();
+            //<for counter="i" start="0" to="PaletteSize/2-1" step="2"></for>
+
+            forCounter = 0;
+            DataTable dt = new DataTable();
+
+            string counterName = xinstruction.Args["counter"];
+            string startStr    = xinstruction.Args["start"];
+            string toStr       = xinstruction.Args["to"];
+            string stepStr     = xinstruction.Args["step"];
+
+            //check start
+            foreach (KeyValuePair<string, object> v in this.Variables)
+                startStr = startStr.Replace(v.Key, v.Value.ToString());
+            foreach (KeyValuePair<string, int> v in this.Counters)
+                startStr = startStr.Replace(v.Key, v.Value.ToString());
+
+            //check to
+            foreach (KeyValuePair<string, object> v in this.Variables)
+                toStr = toStr.Replace(v.Key, v.Value.ToString());
+            foreach (KeyValuePair<string, int> v in this.Counters)
+                toStr = toStr.Replace(v.Key, v.Value.ToString());
+
+            //check step
+            foreach (KeyValuePair<string, object> v in this.Variables)
+                stepStr = stepStr.Replace(v.Key, v.Value.ToString());
+            foreach (KeyValuePair<string, int> v in this.Counters)
+                stepStr = stepStr.Replace(v.Key, v.Value.ToString());
+
+            int start = int.Parse(dt.Compute(startStr, "").ToString());
+            int to    = int.Parse(dt.Compute(toStr, "").ToString());
+            int step  = int.Parse(dt.Compute(stepStr, "").ToString());
+
+            this.Counters.Add(counterName, start);
+            for (int i = start; i <= to; i += step)
+            {
+                this.Counters[counterName] = i;
+                for (int j = 0; j < xinstruction.Xinstructions.Count; j++)
+                {
+                    Xinstruction curr = xinstruction.Xinstructions[j];
+
+                    //delete the cycle counter from the primitive last cycle name
+                    char ch = curr.Args["name"][curr.Args["name"].Length - 2];
+                    if (ch == '_')
+                        curr.Args["name"] = curr.Args["name"].Remove(curr.Args["name"].Length - 2, 2);
+                    curr.Args["name"] += "_" + forCounter.ToString();
+
+                    AddInstruction(curr);
+                    forCounter++;
+                }
+            }
+                
         }
 
         private void ExecutePrimitive(Xinstruction xinstruction)
@@ -55,8 +110,12 @@ namespace NDS_FileFormatParser.Debugging
 
             foreach (KeyValuePair<string, object> v in this.Variables)
                 offStr = offStr.Replace(v.Key, v.Value.ToString());
+            foreach (KeyValuePair<string, int> v in this.Counters)
+                offStr = offStr.Replace(v.Key, v.Value.ToString());
 
             foreach (KeyValuePair<string, object> v in this.Variables)
+                sizeStr = sizeStr.Replace(v.Key, v.Value.ToString());
+            foreach (KeyValuePair<string, int> v in this.Counters)
                 sizeStr = sizeStr.Replace(v.Key, v.Value.ToString());
 
             int offset = int.Parse(dt.Compute(offStr, "").ToString());

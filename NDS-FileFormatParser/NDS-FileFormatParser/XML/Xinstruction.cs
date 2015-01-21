@@ -82,9 +82,9 @@ namespace NDS_FileFormatParser.XML
             switch (command)
             {
                 case "primitive":
+                case "for":
                     isValid = true;
                     break;
-                case "for":
                 case "if":
                     throw new NotImplementedException("Xinstruction command not supported yet");
                 default:
