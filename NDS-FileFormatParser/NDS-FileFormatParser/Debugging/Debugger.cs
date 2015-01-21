@@ -78,16 +78,20 @@ namespace NDS_FileFormatParser.Debugging
             this.Counters.Add(counterName, start);
             for (int i = start; i <= to; i += step)
             {
-                this.Counters[counterName] = i;
+                this.Counters[counterName] = i; //update the counter                
+                //excecute each instruction inside the for
                 for (int j = 0; j < xinstruction.Xinstructions.Count; j++)
                 {
                     Xinstruction curr = xinstruction.Xinstructions[j];
-
                     //delete the cycle counter from the primitive last cycle name
-                    char ch = curr.Args["name"][curr.Args["name"].Length - 2];
-                    if (ch == '_')
-                        curr.Args["name"] = curr.Args["name"].Remove(curr.Args["name"].Length - 2, 2);
-                    curr.Args["name"] += "_" + forCounter.ToString();
+                    string n = curr.Args["name"];
+                    for (int a = 0; a < n.Length; a++)
+                        if (n[a] == '_')
+                        {
+                            n = n.Remove(a);
+                            break;
+                        }
+                    curr.Args["name"] = n + "_" + forCounter.ToString();
 
                     AddInstruction(curr);
                     forCounter++;

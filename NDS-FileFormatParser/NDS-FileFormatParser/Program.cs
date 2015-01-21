@@ -13,6 +13,7 @@ namespace NDS_FileFormatParser
             Console.WriteLine("~~ NDS-FileFormatParser ~~");
             Console.WriteLine("by Superfranci99 -- V:{0}",
                 System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
+            Console.WriteLine();
 
             RunCommand(args);
         }
