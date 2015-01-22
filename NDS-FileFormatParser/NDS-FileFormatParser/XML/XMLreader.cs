@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using NDS_FileFormatParser.Debugging;
+using NDS_FileFormatParser.OutputConversion;
 
 namespace NDS_FileFormatParser.XML
 {
@@ -23,6 +24,8 @@ namespace NDS_FileFormatParser.XML
         public XElement InfoElement  { get; set; }
 
         public Debugger Debug { get; set; }
+
+        public DefaultType Output { get; set; }
 
         #region Constructors
         public XMLreader(string xmlPath, string fileToParsePath)
@@ -51,7 +54,7 @@ namespace NDS_FileFormatParser.XML
             this.HasStructureElement = false;
 
             this.FileToParsePath = fileToParsePath;
-            this.Debug = new Debugger(this.FileToParsePath);
+            //this.Debug = new Debugger(this.FileToParsePath);
         }
         #endregion
 
@@ -79,13 +82,20 @@ namespace NDS_FileFormatParser.XML
             if (this.InfoElement == null)
                 throw new NullReferenceException("The <data></data> element needs the <info></info> element");
             else
-                this.HasInfoElement = true;     
+                this.HasInfoElement = true;
+
+            //TODO - read the file info section
+            this.Output = new Palette();
+
+            this.Debug = new Debugger(this.FileToParsePath, this.Output);
 
             //read file structure
             foreach (XElement el in this.StuctElement.Elements())
                 this.Debug.AddInstruction(Xinstruction.FromXElementToXinstruction(el));
 
-            //TODO - read the file info section
+            this.Output.Import();
+            
+            
         }
     }
 }

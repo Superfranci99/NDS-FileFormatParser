@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NDS_FileFormatParser.XML;
 using NDS_FileFormatParser.Parsing;
+using NDS_FileFormatParser.OutputConversion;
 using System.Data;
 
 namespace NDS_FileFormatParser.Debugging
@@ -15,14 +16,16 @@ namespace NDS_FileFormatParser.Debugging
         public Parser Parse { get; set; }
         public Dictionary<string, object> Variables { get; set; }
         public Dictionary<string, int> Counters { get; set; }
+        public DefaultType Output { get; set; }
 
         int forCounter;
 
-        public Debugger(string fileToParsePath)
+        public Debugger(string fileToParsePath, DefaultType t)
         {
             this.Parse     = new Parser(fileToParsePath);
             this.Variables = new Dictionary<string, object>();
             this.Counters  = new Dictionary<string, int>();
+            this.Output = t;
         }
 
         public void AddInstruction(Xinstruction xinstruction)
@@ -134,6 +137,7 @@ namespace NDS_FileFormatParser.Debugging
 
             //output the value with all infos
             Console.WriteLine("{0}, {1}, {2}, {3} --> {4}", name, type, offset, size, value);
+            this.Output.AddDipendencies(name, value);
         }
     }
 }
