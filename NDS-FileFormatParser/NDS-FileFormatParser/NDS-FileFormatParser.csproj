@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="Debugging\Debugger.cs" />
     <Compile Include="Controller.cs" />
+    <Compile Include="OutputConversion\DefaultType.cs" />
+    <Compile Include="OutputConversion\Palette.cs" />
     <Compile Include="Parsing\Parser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -57,7 +59,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Files\test.xml">
+    <Content Include="Files\NCLR.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

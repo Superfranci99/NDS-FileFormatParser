@@ -29,7 +29,7 @@ namespace NDS_FileFormatParser
             */
             args = new string[2];
             args[0] = @"Files\palette.nclr";
-            args[1] = @"Files\test.xml";
+            args[1] = @"Files\NCLR.xml";
 
             Controller controller = new Controller(args[0], args[1]);
             Console.Read();
